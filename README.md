@@ -1,31 +1,47 @@
-# Laboratorio 08 – MVC con Dapper (Biblioteca.Web)
+# Biblioteca.Web
 
-## Cómo ejecutar
-1. Ejecutar `Scripts/Script-Semana08.sql` en SSMS sobre `.\SQLEXPRESS` (usa `BibliotecaDB` de la semana 07; es re-ejecutable).
-2. Abrir `lab8.slnx` en Visual Studio y ejecutar (o `dotnet run --project lab8`).
-3. La cadena de conexión está en `lab8/appsettings.json` (`ConnectionStrings:BibliotecaDB`).
+Aplicación web de gestión de biblioteca desarrollada con **ASP.NET Core MVC (.NET 10)** y **Dapper**, conectada a SQL Server. Permite administrar libros y socios y consultar un reporte de préstamos.
+
+## Funcionalidades
+
+- **Libros:** listado, búsqueda por título, detalle, registro, edición y eliminación lógica.
+- **Socios:** listado y registro, con validación de DNI duplicado.
+- **Reporte de préstamos:** consulta por rango de fechas (socio, libro, fecha límite y estado).
+
+## Tecnologías
+
+- ASP.NET Core MVC y Razor
+- Dapper y Microsoft.Data.SqlClient
+- SQL Server (procedimientos almacenados)
+- Bootstrap 5
 
 ## Estructura
-- `Models/` Libro (con DataAnnotations), Socio, PrestamoReporte, Autor
-- `Repositorios/` LibroRepositorio, SocioRepositorio (Dapper + `CommandType.StoredProcedure`)
-- `Controllers/` Libros, Socios, Prestamos (sin SQL ni conexiones)
-- `Views/Libros|Socios|Prestamos`, parcial `Views/Libros/_FilaLibro.cshtml` (punto extra)
 
-## Explicación: recorrido de una petición – `GET /Libros?buscar=casa`
-1. **Ruta:** la ruta por defecto `{controller=Libros}/{action=Index}/{id?}` resuelve `LibrosController.Index`; `buscar` se enlaza desde la query string.
-2. **Controlador:** `Index(string? buscar)` (async) llama a `_libros.BuscarAsync(buscar)`; si no hay texto llama a `ListarAsync()`. El `LibroRepositorio` llega por inyección en el constructor (registrado con `AddScoped` en `Program.cs`).
-3. **Repositorio:** `BuscarAsync` abre un `SqlConnection` con la cadena leída de `IConfiguration` y ejecuta `QueryAsync<Libro>("usp_Libros_BuscarPorTitulo", new { Titulo = ... }, commandType: CommandType.StoredProcedure)`.
-4. **Procedimiento almacenado:** `usp_Libros_BuscarPorTitulo` hace `Libros INNER JOIN Autores` con `Activo = 1` y `Titulo LIKE '%' + @Titulo + '%'`. Dapper mapea las columnas a `Libro` (incluye `AutorNombre`).
-5. **Vista:** el controlador devuelve `View(lista)`; `Views/Libros/Index.cshtml` (`@model IEnumerable<Libro>`) pinta la tabla y por cada libro renderiza la parcial `_FilaLibro`.
+```
+Scripts/            Procedimientos almacenados (Script-Semana08.sql)
+lab8/
+  Controllers/      Libros, Socios, Prestamos
+  Models/           Libro, Socio, Autor, PrestamoReporte
+  Repositorios/     Acceso a datos con Dapper
+  Views/            Vistas Razor
+```
 
-**Cómo se pasan los datos y por qué**
-- **Modelo (`@model`)**: el dato principal de la vista (la lista de libros / el libro del formulario); es fuertemente tipado y valida en compilación.
-- **ViewData**: datos auxiliares y de vida corta en la misma petición: `Title`, el texto buscado (`Buscar`), la lista desplegable de autores (`Autores`) y el rango de fechas del reporte (`Desde`/`Hasta`).
-- **TempData**: solo para el resultado de Create/Edit/Delete, porque tras guardar se hace `RedirectToAction` (Post/Redirect/Get) y ViewData se perdería al ser otra petición; TempData sobrevive a esa redirección y se muestra una sola vez en `_Layout`.
+## Requisitos
 
-## Observaciones y conclusiones
-- Separar controlador / repositorio / procedimiento almacenado deja el SQL en un solo lugar y los controladores simples y sin acoplarse a la base de datos.
-- Dapper reduce el código de acceso a datos frente a ADO.NET puro, manteniendo el control del SQL.
-- La eliminación lógica (`Activo = 0`) conserva el historial de préstamos y evita errores de llave foránea.
-- Los duplicados (ISBN, DNI) se detectan en el procedimiento (devuelve -1) y se muestran con `ModelState.AddModelError` en lugar de dejar que la página falle.
-- Pendiente del alumno: capturas de pantalla de las vistas y URL del repositorio.
+- .NET SDK 10
+- SQL Server (por defecto `.\SQLEXPRESS`)
+- Base de datos `BibliotecaDB` con sus tablas y datos de prueba
+
+## Puesta en marcha
+
+1. Crear `BibliotecaDB` con sus tablas y datos de prueba.
+2. Ejecutar `Scripts/Script-Semana08.sql` para crear los procedimientos almacenados.
+3. Revisar la cadena de conexión en `lab8/appsettings.json` (`ConnectionStrings:BibliotecaDB`).
+4. Ejecutar:
+
+```bash
+cd lab8
+dotnet run
+```
+
+La aplicación abre en la sección de Libros.
