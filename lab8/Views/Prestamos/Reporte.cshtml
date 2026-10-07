@@ -1,0 +1,69 @@
+@model IEnumerable<PrestamoReporte>
+@{
+    ViewData["Title"] = "Reporte de préstamos";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Reporte de préstamos</h1>
+        <p class="sub">Filtra por fecha de préstamo</p>
+    </div>
+</div>
+
+<div class="panel mb-3">
+    <form method="get" asp-action="Reporte" class="row g-3 align-items-end">
+        <div class="col-sm-4 col-md-3">
+            <label for="desde" class="form-label">Desde</label>
+            <input type="date" id="desde" name="desde" value="@ViewData["Desde"]" class="form-control" />
+        </div>
+        <div class="col-sm-4 col-md-3">
+            <label for="hasta" class="form-label">Hasta</label>
+            <input type="date" id="hasta" name="hasta" value="@ViewData["Hasta"]" class="form-control" />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </div>
+    </form>
+</div>
+
+@if (ViewData["Error"] is string error)
+{
+    <div class="alert alert-danger">@error</div>
+}
+else if (!Model.Any())
+{
+    <div class="panel empty">
+        <div class="big">📭</div>
+        <p class="mb-0">No hay préstamos entre @ViewData["Desde"] y @ViewData["Hasta"].</p>
+    </div>
+}
+else
+{
+    <div class="panel flush table-responsive">
+        <table class="table table-modern">
+            <thead>
+                <tr>
+                    <th>N°</th>
+                    <th>Socio</th>
+                    <th>Libro</th>
+                    <th>Préstamo</th>
+                    <th>Fecha límite</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td class="cell-muted">#@p.PrestamoId</td>
+                        <td><span class="cell-title">@p.Socio</span> <span class="cell-muted">(@p.DNI)</span></td>
+                        <td>@p.Libro</td>
+                        <td>@p.FechaPrestamo.ToString("dd/MM/yyyy")</td>
+                        <td>@p.FechaLimite.ToString("dd/MM/yyyy")</td>
+                        <td><span class="pill @(p.Estado == "Devuelto" ? "pill-ok" : "pill-warn")">@p.Estado</span></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

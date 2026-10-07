@@ -1,0 +1,20 @@
+@model Libro
+@{
+    ViewData["Title"] = "Nuevo libro";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Nuevo libro</h1>
+        <p class="sub">Completa los datos para registrarlo en el catálogo</p>
+    </div>
+</div>
+<div class="panel panel-narrow">
+    <form asp-action="Create" method="post">
+        <partial name="_Formulario" model="Model" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

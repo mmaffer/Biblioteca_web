@@ -1,0 +1,20 @@
+@model Libro
+@{
+    ViewData["Title"] = "Editar libro";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Editar libro</h1>
+        <p class="sub">@Model.Titulo</p>
+    </div>
+</div>
+<div class="panel panel-narrow">
+    <form asp-action="Edit" asp-route-id="@Model.LibroId" method="post">
+        <partial name="_Formulario" model="Model" />
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

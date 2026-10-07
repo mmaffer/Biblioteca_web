@@ -1,0 +1,24 @@
+@model Libro
+@{
+    ViewData["Title"] = "Eliminar libro";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Eliminar libro</h1>
+        <p class="sub">Esta acción dará de baja el registro</p>
+    </div>
+</div>
+<div class="panel panel-narrow">
+    <div class="alert alert-warning">¿Seguro que desea eliminar este libro? Se dará de baja (eliminación lógica).</div>
+    <dl class="row detail-list mb-4">
+        <dt class="col-sm-4">Título</dt><dd class="col-sm-8">@Model.Titulo</dd>
+        <dt class="col-sm-4">ISBN</dt><dd class="col-sm-8">@Model.ISBN</dd>
+        <dt class="col-sm-4">Autor</dt><dd class="col-sm-8">@Model.AutorNombre</dd>
+        <dt class="col-sm-4">Ejemplares</dt><dd class="col-sm-8">@Model.Ejemplares</dd>
+    </dl>
+    <form asp-action="Delete" asp-route-id="@Model.LibroId" method="post">
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+    </form>
+</div>

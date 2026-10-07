@@ -1,0 +1,29 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# Compilación
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+publish/
+*.log
+
+# NuGet
+*.nupkg
+packages/
+
+# Visual Studio Code / Rider
+.vscode/
+.idea/
+
+# Archivos de Windows
+Thumbs.db
+Desktop.ini
+
+# Secretos locales (si algún día agregas cadenas de conexión reales)
+appsettings.Production.json
+*.secrets.json

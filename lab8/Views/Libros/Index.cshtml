@@ -1,0 +1,58 @@
+@model IEnumerable<Libro>
+@{
+    ViewData["Title"] = "Libros";
+    var buscar = ViewData["Buscar"] as string;
+}
+
+<div class="page-head">
+    <div>
+        <h1>Libros</h1>
+        <p class="sub">@Model.Count() registro(s) activo(s)</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Nuevo libro</a>
+</div>
+
+<div class="panel mb-3">
+    <form method="get" asp-action="Index" class="row g-2">
+        <div class="col">
+            <input type="search" name="buscar" value="@buscar" class="form-control" placeholder="🔍  Buscar por título..." />
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            @if (!string.IsNullOrWhiteSpace(buscar))
+            {
+                <a class="btn btn-outline-secondary" asp-action="Index">Limpiar</a>
+            }
+        </div>
+    </form>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="panel empty">
+        <div class="big">📭</div>
+        <p class="mb-0">No se encontraron libros@(string.IsNullOrWhiteSpace(buscar) ? "" : $" para «{buscar}»").</p>
+    </div>
+}
+else
+{
+    <div class="panel flush table-responsive">
+        <table class="table table-modern">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Autor</th>
+                    <th>ISBN</th>
+                    <th class="text-center">Ejemplares</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var libro in Model)
+                {
+                    <partial name="_FilaLibro" model="libro" />
+                }
+            </tbody>
+        </table>
+    </div>
+}

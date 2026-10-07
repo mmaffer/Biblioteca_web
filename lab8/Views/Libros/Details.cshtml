@@ -1,0 +1,22 @@
+@model Libro
+@{
+    ViewData["Title"] = "Detalle del libro";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Detalle del libro</h1>
+        <p class="sub">Información registrada en el catálogo</p>
+    </div>
+</div>
+<div class="panel panel-narrow">
+    <dl class="row detail-list mb-4">
+        <dt class="col-sm-4">Título</dt><dd class="col-sm-8">@Model.Titulo</dd>
+        <dt class="col-sm-4">ISBN</dt><dd class="col-sm-8">@Model.ISBN</dd>
+        <dt class="col-sm-4">Autor</dt><dd class="col-sm-8">@Model.AutorNombre</dd>
+        <dt class="col-sm-4">Ejemplares</dt>
+        <dd class="col-sm-8"><span class="pill @(Model.Ejemplares == 0 ? "pill-bad" : Model.Ejemplares <= 1 ? "pill-warn" : "pill-ok")">@Model.Ejemplares</span></dd>
+    </dl>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.LibroId">Editar</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Volver</a>
+</div>

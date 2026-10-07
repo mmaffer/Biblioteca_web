@@ -1,0 +1,117 @@
+:root {
+  --brand: #4f46e5;
+  --brand-dark: #3730a3;
+  --brand-soft: #eef2ff;
+  --ink: #1e293b;
+  --muted: #64748b;
+  --line: #e2e8f0;
+  --bg: #f1f5f9;
+  --radius: 14px;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 8px 24px rgba(15, 23, 42, .06);
+  --bs-primary: var(--brand);
+  --bs-primary-rgb: 79, 70, 229;
+  --bs-link-color: var(--brand);
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+html { font-size: 15px; position: relative; min-height: 100%; }
+@media (min-width: 768px) { html { font-size: 16px; } }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  margin-bottom: 70px;
+  font-family: var(--bs-body-font-family);
+}
+
+/* ---------- Navbar ---------- */
+.app-nav {
+  background: linear-gradient(120deg, var(--brand-dark), var(--brand));
+  box-shadow: 0 4px 18px rgba(55, 48, 163, .25);
+}
+.app-nav .navbar-brand { font-weight: 700; letter-spacing: .2px; color: #fff; }
+.app-nav .nav-link {
+  color: rgba(255, 255, 255, .8);
+  font-weight: 500;
+  border-radius: 999px;
+  padding: .4rem .95rem !important;
+  margin-left: .25rem;
+  transition: background .15s, color .15s;
+}
+.app-nav .nav-link:hover { color: #fff; background: rgba(255, 255, 255, .14); }
+.app-nav .nav-link.active { color: var(--brand-dark); background: #fff; }
+
+/* ---------- Encabezado de página ---------- */
+.page-head { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between; margin: 1.5rem 0 1.25rem; }
+.page-head h1 { font-size: 1.6rem; font-weight: 700; margin: 0; }
+.page-head .sub { color: var(--muted); font-size: .92rem; margin: .15rem 0 0; }
+
+/* ---------- Tarjetas ---------- */
+.panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+.panel.flush { padding: 0; overflow: hidden; }
+.panel-narrow { max-width: 620px; }
+
+/* ---------- Tablas ---------- */
+.table-modern { margin: 0; --bs-table-bg: transparent; }
+.table-modern thead th {
+  background: #f8fafc;
+  color: var(--muted);
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  padding: .85rem 1rem;
+  white-space: nowrap;
+}
+.table-modern tbody td { padding: .85rem 1rem; border-color: var(--line); vertical-align: middle; }
+.table-modern tbody tr:hover { background: var(--brand-soft); }
+.cell-title { font-weight: 600; }
+.cell-muted { color: var(--muted); font-size: .88rem; }
+
+/* ---------- Botones ---------- */
+.btn { border-radius: 10px; font-weight: 500; }
+.btn-primary { background: var(--brand); border-color: var(--brand); }
+.btn-primary:hover, .btn-primary:focus { background: var(--brand-dark); border-color: var(--brand-dark); }
+.btn-outline-primary { color: var(--brand); border-color: var(--brand); }
+.btn-outline-primary:hover { background: var(--brand); border-color: var(--brand); }
+.btn-icon { padding: .3rem .65rem; font-size: .85rem; }
+
+/* ---------- Formularios ---------- */
+.form-label { font-weight: 600; font-size: .9rem; }
+.form-control, .form-select { border-radius: 10px; border-color: #cbd5e1; padding: .6rem .85rem; }
+.form-control:focus, .form-select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .22rem rgba(79, 70, 229, .18);
+}
+.field-validation-error, .text-danger { font-size: .85rem; }
+.input-validation-error { border-color: #dc3545 !important; }
+
+/* ---------- Pastillas de estado ---------- */
+.pill { display: inline-block; padding: .22rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 600; }
+.pill-ok { background: #dcfce7; color: #166534; }
+.pill-warn { background: #fef3c7; color: #92400e; }
+.pill-bad { background: #fee2e2; color: #991b1b; }
+
+/* ---------- Alertas ---------- */
+.alert { border: 0; border-radius: 12px; box-shadow: var(--shadow); }
+.alert-success { background: #dcfce7; color: #166534; }
+.alert-danger { background: #fee2e2; color: #991b1b; }
+.alert-info { background: var(--brand-soft); color: var(--brand-dark); }
+.alert-warning { background: #fef3c7; color: #92400e; }
+
+/* ---------- Detalle ---------- */
+.detail-list dt { color: var(--muted); font-weight: 500; }
+.detail-list dd { font-weight: 600; }
+
+/* ---------- Estado vacío ---------- */
+.empty { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+.empty .big { font-size: 2.5rem; }
+
+.footer { position: absolute; bottom: 0; width: 100%; line-height: 50px; font-size: .85rem; background: transparent; border-color: var(--line) !important; }

@@ -1,0 +1,30 @@
+@model IEnumerable<Socio>
+@{
+    ViewData["Title"] = "Socios";
+}
+
+<div class="page-head">
+    <div>
+        <h1>Socios</h1>
+        <p class="sub">@Model.Count() socio(s) activo(s)</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">+ Nuevo socio</a>
+</div>
+
+<div class="panel flush table-responsive">
+    <table class="table table-modern">
+        <thead>
+            <tr><th>DNI</th><th>Nombre</th><th>Email</th></tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td class="cell-muted">@s.DNI</td>
+                    <td class="cell-title">@s.Nombre</td>
+                    <td>@(s.Email ?? "—")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
